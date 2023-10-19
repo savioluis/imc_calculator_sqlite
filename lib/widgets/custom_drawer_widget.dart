@@ -1,4 +1,7 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
+import 'package:imc_calculator/pages/home_page.dart';
 import 'package:imc_calculator/pages/lista_imc_page.dart';
 import 'package:imc_calculator/pages/meu_perfil_page.dart';
 import 'package:imc_calculator/utils/dialogs_util.dart';
@@ -90,23 +93,30 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           const Divider(),
-          ListTile(
-            leading: const Icon(
-              Icons.info_outline_rounded,
-              color: Colors.black54,
-            ),
-            title: const Text('Informacoes'),
-            onTap: () {},
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.45,
           ),
-          ListTile(
-            leading: const Icon(
-              Icons.settings,
-              color: Colors.black54,
+          Expanded(
+            child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: ListTile(
+                hoverColor: Colors.blue,
+                leading: const Icon(
+                  Icons.logout,
+                  color: Colors.black54,
+                ),
+                title: const Text('Sair'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomePage(),
+                    ),
+                  );
+                },
+              ),
             ),
-            title: const Text('Configuracoes'),
-            onTap: () {
-              Navigator.pop(context);
-            },
           ),
         ],
       ),

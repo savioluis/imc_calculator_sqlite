@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:imc_calculator/model/imc_model.dart';
-import 'package:imc_calculator/pages/lista_imc_page.dart';
-import 'package:imc_calculator/pages/meu_perfil_page.dart';
+import 'package:imc_calculator/repository/imc_repository.dart';
 import 'package:imc_calculator/widgets/custom_large_button_widget.dart';
 import 'package:imc_calculator/services/shared_preferences_service.dart';
 import 'package:imc_calculator/utils/dialogs_util.dart';
@@ -28,23 +27,30 @@ class _CalculadoraIMCPageState extends State<CalculadoraIMCPage> {
 
   String resultadoIMCTela = "";
   double valorIMCTela = -1;
-  List<ImcModel> listaImc = [];
+  List<ImcModel> listaImcTemporaria = [];
 
   String nome = '';
   double altura = 0.0;
 
+  final ImcRepository _repository = ImcRepository();
+
   Future<void> _carregarValores() async {
+    setState(() {
+      carregando = true;
+    });
     if (await SharedPreferencesService.getNome() != null) {
       nome = '${await SharedPreferencesService.getNome()}';
     }
     if (await SharedPreferencesService.getAltura() != null) {
       altura = (await SharedPreferencesService.getAltura())!;
     }
-    Timer(const Duration(milliseconds: 500), () {
-      setState(() {
-        carregando = false;
-      });
+    setState(() {
+      carregando = false;
     });
+  }
+
+  Future<void> _salvarImcNoBanco(ImcModel imc) async {
+    _repository.save(imc);
   }
 
   void _formValidate() async {
@@ -54,7 +60,10 @@ class _CalculadoraIMCPageState extends State<CalculadoraIMCPage> {
       double valorIMC = ImcFormula.calcularIMC(peso, altura);
       String categoriaIMC = ImcFormula.resultadoIMC(valorIMC);
 
+      int dbIndex = await _repository.getCount() ?? 0;
+
       ImcModel imc = ImcModel(
+        id: dbIndex,
         valor: valorIMC,
         categoria: categoriaIMC,
         altura: altura,
@@ -62,7 +71,8 @@ class _CalculadoraIMCPageState extends State<CalculadoraIMCPage> {
         peso: peso,
       );
 
-      listaImc.add(imc);
+      _salvarImcNoBanco(imc);
+      listaImcTemporaria.add(imc);
 
       setState(() {
         valorIMCTela = valorIMC;
@@ -73,7 +83,7 @@ class _CalculadoraIMCPageState extends State<CalculadoraIMCPage> {
       print(resultadoIMCTela);
 
       pesoController.clear();
-      SnackBarUtil.infoSnackBar(context, "IMC calculado com sucesso !");
+      SnackBarUtil.infoSnackBar(context, "IMC calculado com sucesso");
     }
   }
 
@@ -86,7 +96,10 @@ class _CalculadoraIMCPageState extends State<CalculadoraIMCPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(altura: altura, nome: nome),
+      drawer: CustomDrawer(
+        altura: altura,
+        nome: nome,
+      ),
       appBar: AppBar(
         title: const Text("Calculadora IMC"),
       ),
@@ -94,9 +107,9 @@ class _CalculadoraIMCPageState extends State<CalculadoraIMCPage> {
           ? Container()
           : FloatingActionButton(
               onPressed: () {
-                DialogsUtil.showListOfImcs(
+                DialogsUtil.showListaImcs(
                   context,
-                  listaImc,
+                  listaImcTemporaria,
                 );
               },
               backgroundColor: Colors.blueAccent,

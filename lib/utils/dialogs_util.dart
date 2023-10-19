@@ -1,10 +1,12 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:imc_calculator/model/imc_model.dart';
-import 'package:imc_calculator/services/shared_preferences_service.dart';
+import 'package:imc_calculator/repository/imc_repository.dart';
 import 'package:imc_calculator/widgets/imc_card.dart';
 
 class DialogsUtil {
-  static void showListOfImcs(
+  static void showListaImcs(
     BuildContext context,
     List<ImcModel> imcs,
   ) {
@@ -17,7 +19,7 @@ class DialogsUtil {
               borderRadius: BorderRadius.circular(12.0),
             ),
             title: const Text(
-              "LISTA DE IMC TEMPORARIA",
+              "LISTA DE IMC NÃO PERSISTENTE",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
@@ -51,6 +53,57 @@ class DialogsUtil {
                     "Fechar",
                     style: TextStyle(fontSize: 16),
                   )),
+            ],
+          );
+        });
+  }
+
+  static void showAvisoApagar(
+    BuildContext context,
+    Function() onPressed,
+  ) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            // actionsPadding: const EdgeInsets.all(8.0),
+            actionsAlignment: MainAxisAlignment.center,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            title: const Text(
+              "AVISO",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            content: Container(
+              alignment: Alignment.center,
+              // color: Colors.blue,
+              height: MediaQuery.of(context).size.height * 0.2,
+              child: const Text(
+                "Voce deseja apagar a lista de IMC ? 🙄",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w300),
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  "Fechar",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                ),
+                onPressed: onPressed,
+                child: const Text(
+                  "Apagar",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
             ],
           );
         });

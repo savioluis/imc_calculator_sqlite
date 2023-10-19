@@ -8,14 +8,6 @@ class SnackBarUtil {
         text,
         style: const TextStyle(fontSize: 16),
       ),
-      action: SnackBarAction(
-        label: 'OK',
-        textColor: Colors.blueAccent,
-        onPressed: () {
-          onPressed;
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

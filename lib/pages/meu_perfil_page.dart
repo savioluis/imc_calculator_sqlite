@@ -18,30 +18,36 @@ class MeuPerfilPage extends StatefulWidget {
 }
 
 class _MeuPerfilPageState extends State<MeuPerfilPage> {
-  bool carregando = true;
-
   final TextEditingController alturaController = TextEditingController();
   final TextEditingController nomeController = TextEditingController();
   final _formField = GlobalKey<FormState>();
+  bool carregando = true;
 
-  Future<void> _receberValores() async {
+  Future<void> _carregarValores() async {
+    setState(() {
+      carregando = true;
+    });
     if (await SharedPreferencesService.getNome() != null) {
       nomeController.text = '${await SharedPreferencesService.getNome()}';
     }
     if (await SharedPreferencesService.getAltura() != null) {
       alturaController.text = '${await SharedPreferencesService.getAltura()}';
     }
-    Timer(const Duration(seconds: 1), () {
-      setState(() {
-        carregando = false;
-      });
+    setState(() {
+      carregando = false;
     });
   }
 
   Future<void> _salvarValores() async {
+    setState(() {
+      carregando = true;
+    });
     SharedPreferencesService.setNome(nomeController.value.text.trim());
     SharedPreferencesService.setAltura(
         double.parse(alturaController.value.text.trim()));
+    setState(() {
+      carregando = false;
+    });
   }
 
   Future<bool> alturaMudou() async {
@@ -64,14 +70,14 @@ class _MeuPerfilPageState extends State<MeuPerfilPage> {
     if (_formField.currentState!.validate()) {
       if ((await alturaMudou() || await nomeMudou())) {
         _salvarValores();
-
         Navigator.pop(context);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => const CalculadoraIMCPage(),
             ));
-        SnackBarUtil.infoSnackBar(context, "Os dados foram salvos com sucesso !");
+        SnackBarUtil.infoSnackBar(
+            context, "Os dados foram salvos com sucesso");
       } else {
         SnackBarUtil.infoSnackBar(
             context, "Realize alguma alteração para salvar os dados");
@@ -82,7 +88,7 @@ class _MeuPerfilPageState extends State<MeuPerfilPage> {
   @override
   void initState() {
     super.initState();
-    _receberValores();
+    _carregarValores();
   }
 
   @override

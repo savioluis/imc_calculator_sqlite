@@ -38,16 +38,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _preencherCampos() async {
-    if (await SharedPreferencesService.getNome() != null) {
+    setState(() {
+      carregando = true;
+    });
+    if (await SharedPreferencesService.getNome() != null &&
+        await SharedPreferencesService.getNome() != "") {
       nomeController.text = '${await SharedPreferencesService.getNome()}';
     }
-    if (await SharedPreferencesService.getAltura() != null) {
+    if (await SharedPreferencesService.getAltura() != null &&
+        await SharedPreferencesService.getAltura() != -1) {
       alturaController.text = '${await SharedPreferencesService.getAltura()}';
     }
-    Timer(const Duration(seconds: 1), () {
-      setState(() {
-        carregando = false;
-      });
+    setState(() {
+      carregando = false;
     });
   }
 

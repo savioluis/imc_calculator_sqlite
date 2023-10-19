@@ -20,7 +20,7 @@ class ImcCalculatorApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: false,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

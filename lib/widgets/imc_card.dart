@@ -129,7 +129,7 @@ class ImcCard extends StatelessWidget {
                           Text(imc.nome),
                         ],
                       ),
-                      Container(color: Colors.purple, height: 16, width: 96),
+                      Container(color: Colors.purple, height: 20, width: 96),
                     ],
                   ),
                 ),
