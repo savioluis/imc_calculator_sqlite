@@ -30,7 +30,7 @@ class ImcCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 16),
                 Container(
-                  color: Colors.red,
+                  // color: Colors.red,
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +49,6 @@ class ImcCard extends StatelessWidget {
                           Expanded(
                             child: Text(
                               '${imc.peso} kg',
-                              // "${imc.peso} kg",
                               style: const TextStyle(
                                   overflow: TextOverflow.ellipsis),
                               overflow: TextOverflow.ellipsis,
@@ -70,7 +69,6 @@ class ImcCard extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              // "${imc.altura} m",
                               '${imc.altura} m',
                               style: const TextStyle(
                                   overflow: TextOverflow.ellipsis),
@@ -85,7 +83,7 @@ class ImcCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 28),
                 Container(
-                  color: Colors.yellow,
+                  // color: Colors.yellow,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +111,7 @@ class ImcCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 28),
                 Container(
-                  color: Colors.blue,
+                  // color: Colors.blue,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +127,11 @@ class ImcCard extends StatelessWidget {
                           Text(imc.nome),
                         ],
                       ),
-                      Container(color: Colors.purple, height: 20, width: 96),
+                      Container(
+                        // color: Colors.purple,
+                        height: 20,
+                        width: 96,
+                      ),
                     ],
                   ),
                 ),

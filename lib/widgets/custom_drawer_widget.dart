@@ -96,28 +96,6 @@ class CustomDrawer extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.45,
           ),
-          Expanded(
-            child: Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: ListTile(
-                hoverColor: Colors.blue,
-                leading: const Icon(
-                  Icons.logout,
-                  color: Colors.black54,
-                ),
-                title: const Text('Sair'),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomePage(),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
         ],
       ),
     );
